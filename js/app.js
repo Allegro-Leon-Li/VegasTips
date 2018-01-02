@@ -7,15 +7,19 @@ var markerModels = [
   new MarkerModel('Luxor Hotel & Casino',-115.1760672, 36.09551)
 ];
 function AppViewModel() {
-    this.firstName = ko.observable("Bert");
-    this.lastName = ko.observable("Bertington");
-    this.fullName = ko.computed(function() {
-      return this.firstName() + " " + this.lastName();
-    }, this);
-    this.capitalizeLastName = function() {
-        var currentVal = this.lastName();        // Read the current value
-        this.lastName(currentVal.toUpperCase()); // Write back a modified value
-    };
+
+    var self = this;
+    self.locations = markerModels;
+    self.query = ko.observable('');
+    self.filteredLocations = ko.computed(function() {
+      var filter = self.query().toLowerCase();
+      return ko.utils.arrayFilter(self.locations, function(item) {
+        const isVisible = item.name.toLowerCase().indexOf(filter) > -1 || !filter;
+        if (item.marker)
+          item.marker.setVisible(isVisible);
+        return isVisible;
+      })
+    });
 
 }
 // Activates knockout.js

@@ -6,6 +6,7 @@ function initMap() {
     zoom: 14
   });
 
+  var largeInfowindow = new google.maps.InfoWindow();
   var defaultIcon = makeMarkerIcon('0091ff');
   var highlightedIcon = makeMarkerIcon('FFFF24');
 
@@ -26,9 +27,9 @@ function initMap() {
     // Push the marker to our array of markers.
     markers.push(marker);
     // Create an onclick event to open the large infowindow at each marker.
-    // marker.addListener('click', function() {
-    //   populateInfoWindow(this, largeInfowindow);
-    // });
+    marker.addListener('click', function() {
+      populateInfoWindow(this, largeInfowindow);
+    });
     // Two event listeners - one for mouseover, one for mouseout,
     // to change the colors back and forth.
     marker.addListener('mouseover', function() {
@@ -41,6 +42,10 @@ function initMap() {
   }
 }
 
+
+function errorMap() {
+  console.log('error loading Google Map API');
+}
 // This function will loop through the markers array and display them all.
 function showListings() {
   var bounds = new google.maps.LatLngBounds();
@@ -52,6 +57,24 @@ function showListings() {
   map.fitBounds(bounds);
 }
 
+
+// This function populates the infowindow when the marker is clicked. We'll only allow
+// one infowindow which will open at the marker that is clicked, and populate based
+// on that markers position.
+function populateInfoWindow(marker, infowindow) {
+  // Check to make sure the infowindow is not already opened on this marker.
+  if (infowindow.marker != marker) {
+    // Clear the infowindow content to give the streetview time to load.
+    infowindow.marker = marker;
+    // Make sure the marker property is cleared if the infowindow is closed.
+    infowindow.addListener('closeclick', function() {
+      infowindow.marker = null;
+    });
+    infowindow.setContent('');
+    console.log(marker);
+    infowindow.open(map, marker);
+  }
+}
 // This function will loop through the listings and hide them all.
 function hideMarkers(markers) {
   for (var i = 0; i < markers.length; i++) {
