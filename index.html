@@ -56,8 +56,9 @@
       <button data-bind="click: capitalizeLastName">Go caps</button>
       <p>First name: <input data-bind="value: firstName" /></p>
       <p>Last name: <input data-bind="value: lastName" /></p> -->
+      <input type="text" data-bind="value: query, valueUpdate: 'keyup'">
       <ul data-bind="foreach: filteredLocations">
-          <li data-bind="text: name"></li>
+          <li data-bind="text: name, click: $parent.selectFromList"></li>
       </ul>
     </div>
     <div id="map"></div>

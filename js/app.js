@@ -21,6 +21,10 @@ function AppViewModel() {
       })
     });
 
+    self.selectFromList = function(selectedItem) {
+      populateInfoWindow(selectedItem.marker, largeInfowindow);
+    };
+
 }
 // Activates knockout.js
 ko.applyBindings(new AppViewModel());

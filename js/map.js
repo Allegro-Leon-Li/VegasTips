@@ -1,12 +1,13 @@
 var map;
 var markers = [];
+var largeInfowindow;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 36.1059912, lng: -115.1751949},
     zoom: 14
   });
 
-  var largeInfowindow = new google.maps.InfoWindow();
+  largeInfowindow = new google.maps.InfoWindow();
   var defaultIcon = makeMarkerIcon('0091ff');
   var highlightedIcon = makeMarkerIcon('FFFF24');
 
