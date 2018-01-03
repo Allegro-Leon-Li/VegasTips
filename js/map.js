@@ -20,6 +20,7 @@ function initMap() {
     var marker = new google.maps.Marker({
       position: position,
       title: title,
+      venue_id: markerModels[i].venue_id,
       animation: google.maps.Animation.DROP,
       icon: defaultIcon,
       id: i
@@ -63,6 +64,11 @@ function showListings() {
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
+  var API_URL = 'https://api.foursquare.com/v2/venues/';
+  var VENUE_ID = marker.venue_id;
+  var CLIENT_ID = 'NAXJZWQKMG00NNBV0KZFJKM5ZHHU05KXJF4I13WDXJ3YRY0I';
+  var SECRET = 'W0QLJH3DU0DOUGBIHFRKC2EZYAH4DYI0WAJF4IGCQJM4TDJS';
+  var FOURSQUARE_VERSION = '20170801'
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     // Clear the infowindow content to give the streetview time to load.
@@ -71,11 +77,24 @@ function populateInfoWindow(marker, infowindow) {
     infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
+
     infowindow.setContent('');
+    $.ajax({
+      url: API_URL + VENUE_ID + '/tips?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&v=' + FOURSQUARE_VERSION,
+      success: function(data) {
+        console.log(data);
+        infowindow.setContent('<p>' + data.response.tips.items[0].text + '</p>')
+      },
+      error: function(error) {
+        infowindow.setContent('<p>Error loading Foursquare information with error</p>')
+      }
+    });
     console.log(marker);
     infowindow.open(map, marker);
   }
 }
+
+
 // This function will loop through the listings and hide them all.
 function hideMarkers(markers) {
   for (var i = 0; i < markers.length; i++) {
