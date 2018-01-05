@@ -14,7 +14,7 @@ function initMap() {
   for (var i = 0; i < markerModels.length; i++) {
     // Get the position from the location array.
     var position = {lat: markerModels[i].lat, lng: markerModels[i].lng};
-    console.log(position);
+    // console.log(position);
     var title = markerModels[i].name;
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
@@ -77,8 +77,12 @@ function populateInfoWindow(marker, infowindow) {
     infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
-
-    infowindow.setContent('');
+    map.panTo(marker.getPosition());
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function() {
+        marker.setAnimation(null);
+    }, 800);
+    infowindow.setContent('loading...');
     $.ajax({
       url: API_URL + VENUE_ID + '/tips?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&v=' + FOURSQUARE_VERSION,
       success: function(data) {

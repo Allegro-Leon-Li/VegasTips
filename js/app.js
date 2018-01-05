@@ -6,6 +6,17 @@ var markerModels = [
   new MarkerModel('New York-New York Hotel & Casino',-115.1745559, 36.1023715,'41326e00f964a520b2141fe3'),
   new MarkerModel('Luxor Hotel & Casino',-115.1760672, 36.09551,'41326e00f964a5208c141fe3')
 ];
+
+$(document).ready(function () {
+    console.log("ready");
+    $('#sidebarCollapse').on('click', function () {
+        console.log("click");
+        $('#sidebar').toggleClass('active');
+        // $('.collapse.in').toggleClass('in');
+        // $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+});
+
 function AppViewModel() {
 
     var self = this;
