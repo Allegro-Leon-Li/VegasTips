@@ -8,13 +8,13 @@ var markerModels = [
   new MarkerModel('Luxor Hotel & Casino',-115.1760672, 36.09551,'41326e00f964a5208c141fe3')
 ];
 
-// The event handler for toggling the sidebar
-$(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-        console.log("click");
-        $('#sidebar').toggleClass('active');
-    });
-});
+// Deprecated: The event handler for toggling the sidebar
+// $(document).ready(function () {
+//     $('#sidebarCollapse').on('click', function () {
+//         console.log("click");
+//         $('.sidebar').toggleClass('active');
+//     });
+// });
 
 // The knockoutJS viewmodel
 function AppViewModel() {
@@ -22,6 +22,11 @@ function AppViewModel() {
     var self = this;
     self.locations = markerModels;
     self.query = ko.observable('');
+    self.sidebarStatus = ko.observable(false);
+    // This function toggle the sidebar
+    toggleSidebar = function() {
+      self.sidebarStatus(!self.sidebarStatus());
+    };
     // Filter the results when user input a query string
     self.filteredLocations = ko.computed(function() {
       var filter = self.query().toLowerCase();
@@ -35,6 +40,7 @@ function AppViewModel() {
     // Open the corresponding marker's infowindow when a list item is clicked
     self.selectFromList = function(selectedItem) {
       populateInfoWindow(selectedItem.marker, largeInfowindow);
+      toggleSidebar();
     };
 
 }

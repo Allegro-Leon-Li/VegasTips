@@ -46,7 +46,7 @@ nav {
   z-index: 1;
 }
 
-#sidebar {
+.sidebar {
   width: 250px;
   position: relative;
   top: 0;
@@ -60,27 +60,27 @@ nav {
   transition: all 0.3s;
 }
 
-#sidebar.active {
+.sidebar.active {
   margin-left: -250px;
 }
 
-#sidebar ul.components {
+.sidebar ul.components {
   padding: 20px 0;
   border-bottom: 1px solid #47748b;
   cursor: pointer;
 }
 
-#sidebar ul p {
+.sidebar ul p {
   color: #fff;
   padding: 10px;
 }
 
-#sidebar ul li a {
+.sidebar ul li a {
   padding: 10px;
   font-size: 1.1em;
   display: block;
 }
-#sidebar ul li a:hover {
+.sidebar ul li a:hover {
   color: #7386D5;
   background: #fff;
 }
@@ -91,10 +91,10 @@ ul ul a {
 }
 
 @media (max-width: 768px) {
-  #sidebar {
+  .sidebar {
     margin-left: -250px;
   }
-  #sidebar.active {
+  .sidebar.active {
     margin-left: 0;
   }
 }

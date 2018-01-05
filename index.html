@@ -28,7 +28,7 @@
       <div class="container-fluid">
         <!-- button to toggle the sidebar -->
         <div class="navbar-header">
-            <button type="button" id="sidebarCollapse" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-align-left"></i></button>
+            <button data-bind="click: toggleSidebar" type="button" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-align-left"></i></button>
         </div>
         <!-- Web logo -->
         <div class="collapse navbar-collapse">
@@ -41,7 +41,7 @@
     <!-- sidebar and the map -->
     <div id="content">
       <!-- sidebar -->
-      <div id="sidebar">
+      <div class="sidebar" data-bind="css: {active: $root.sidebarStatus() == true}">
         <form class="align-items-center">
           <input class="search-box form-control" placeholder="Search a place..."type="text" data-bind="value: query, valueUpdate: 'keyup'">
         </form>
