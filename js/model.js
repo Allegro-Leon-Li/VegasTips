@@ -1,3 +1,4 @@
+// Define the model as in MVVM
 function MarkerModel(name, lng, lat, venue_id, marker) {
     var self = this;
     self.name = name;

@@ -1,6 +1,7 @@
 var map;
 var markers = [];
 var largeInfowindow;
+// This function init the Google Map according to Google Map API requirement
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 36.1059912, lng: -115.1751949},
@@ -8,9 +9,11 @@ function initMap() {
   });
 
   largeInfowindow = new google.maps.InfoWindow();
-  var defaultIcon = makeMarkerIcon('0091ff');
-  var highlightedIcon = makeMarkerIcon('FFFF24');
-
+  // Set the default color for the markers
+  var defaultIcon = makeMarkerIcon('cc0000');
+  // Set the highlighted color for the markers
+  var highlightedIcon = makeMarkerIcon('ffcc00');
+  // Create marker for each locations. The following code is from Udacity course
   for (var i = 0; i < markerModels.length; i++) {
     // Get the position from the location array.
     var position = {lat: markerModels[i].lat, lng: markerModels[i].lng};
@@ -43,8 +46,7 @@ function initMap() {
     showListings();
   }
 }
-
-
+// This function reports error if error when loading Google Map
 function errorMap() {
   console.log('error loading Google Map API');
 }
@@ -77,23 +79,31 @@ function populateInfoWindow(marker, infowindow) {
     infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
+    // Make the marker clicked be at the center of the map
     map.panTo(marker.getPosition());
+    // Make animation for the marker when clicked
     marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
         marker.setAnimation(null);
     }, 800);
+    // Set the content of the infowindow regarding the success or fail of calling Foursquare API
     infowindow.setContent('loading...');
+    var contentString = '<h3>' + marker.title + '</h3>';
     $.ajax({
       url: API_URL + VENUE_ID + '/tips?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&v=' + FOURSQUARE_VERSION,
       success: function(data) {
         console.log(data);
-        infowindow.setContent('<p>' + data.response.tips.items[0].text + '</p>')
+        contentString = contentString +
+          '<p>' + data.response.tips.items[0].text + '</p>'
+        infowindow.setContent(contentString);
       },
       error: function(error) {
-        infowindow.setContent('<p>Error loading Foursquare information with error</p>')
+        contentString = contentString +
+          '<p>Error loading Foursquare information</p>'
+        infowindow.setContent(contentString);
       }
     });
-    console.log(marker);
+    // console.log(marker);
     infowindow.open(map, marker);
   }
 }
@@ -106,6 +116,7 @@ function hideMarkers(markers) {
   }
 }
 
+// This function makes the appearance of the marker
 function makeMarkerIcon(markerColor) {
   var markerImage = new google.maps.MarkerImage(
     'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +

@@ -5,12 +5,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Title</title>
+  <title>Vegas Tips</title>
   <meta name="description" content="The Udacity project Neighborhood Map">
   <meta name="author" content="Allegro_l">
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- Custom CSS -->
   <link href="css/style.css" rel="stylesheet">
+  <!-- Bootstrap and jquery -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <!--[if lt IE 9]>
@@ -18,37 +21,40 @@
   <![endif]-->
 
 </head>
-
 <body>
   <div id="wrapper">
-  <nav class="navbar navbar-default no-margin">
-    <div class="container-fluid">
-      <div class="navbar-header">
-          <!-- <button class="btn btn-info navbar-btn" id="sidebarCollapse"> <span class="glyphicon glyphicon-th-large"></span></button> -->
-          <button type="button" id="sidebarCollapse" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-align-left"></i></button>
+    <!-- nav bar -->
+    <nav class="navbar navbar-default no-margin">
+      <div class="container-fluid">
+        <!-- button to toggle the sidebar -->
+        <div class="navbar-header">
+            <button type="button" id="sidebarCollapse" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-align-left"></i></button>
+        </div>
+        <!-- Web logo -->
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a class="navbar-brand" href="#">VAGAS TIPS</a></li>
+            </ul>
+        </div>
       </div>
-
-      <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-              <li ><a class="navbar-brand" href="#">VAGAS TIPS</a></li>
-          </ul>
+    </nav>
+    <!-- sidebar and the map -->
+    <div id="content">
+      <!-- sidebar -->
+      <div id="sidebar">
+        <form class="align-items-center">
+          <input class="search-box form-control" placeholder="Search a place..."type="text" data-bind="value: query, valueUpdate: 'keyup'">
+        </form>
+        <ul class="list-unstyled components" data-bind="foreach: filteredLocations">
+            <li>
+              <a data-bind="text: name, click: $parent.selectFromList"></a>
+            </li>
+        </ul>
       </div>
+      <!-- map -->
+      <div id="map"></div>
     </div>
-  </nav>
-  <div id="content">
-    <div id="sidebar">
-      <form class="align-items-center">
-        <input class="search-box form-control" placeholder="Search a place..."type="text" data-bind="value: query, valueUpdate: 'keyup'">
-      </form>
-      <ul class="list-unstyled components" data-bind="foreach: filteredLocations">
-          <li>
-            <a data-bind="text: name, click: $parent.selectFromList"></a>
-          </li>
-      </ul>
-    </div>
-    <div id="map"></div>
   </div>
-</div>
   <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
   <script src="js/model.js"></script>
   <script src="js/app.js"></script>
@@ -56,7 +62,5 @@
   <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3v2XOSNDXnYDE8oSNr-86v9NKQ0a1i-k&v=3&callback=initMap" onerror="errorMap()">
   </script>
-
-
 </body>
 </html>

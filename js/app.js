@@ -1,3 +1,4 @@
+// Initialize the array of MarkerModels.
 var markerModels = [
   new MarkerModel('The Venetian',-115.1696526, 36.121174,'41326e00f964a52038151fe3'),
   new MarkerModel('MGM Grand',-115.1702533, 36.102576,'41326e00f964a52099141fe3'),
@@ -7,21 +8,21 @@ var markerModels = [
   new MarkerModel('Luxor Hotel & Casino',-115.1760672, 36.09551,'41326e00f964a5208c141fe3')
 ];
 
+// The event handler for toggling the sidebar
 $(document).ready(function () {
-    console.log("ready");
     $('#sidebarCollapse').on('click', function () {
         console.log("click");
         $('#sidebar').toggleClass('active');
-        // $('.collapse.in').toggleClass('in');
-        // $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 });
 
+// The knockoutJS viewmodel
 function AppViewModel() {
 
     var self = this;
     self.locations = markerModels;
     self.query = ko.observable('');
+    // Filter the results when user input a query string
     self.filteredLocations = ko.computed(function() {
       var filter = self.query().toLowerCase();
       return ko.utils.arrayFilter(self.locations, function(item) {
@@ -31,7 +32,7 @@ function AppViewModel() {
         return isVisible;
       })
     });
-
+    // Open the corresponding marker's infowindow when a list item is clicked
     self.selectFromList = function(selectedItem) {
       populateInfoWindow(selectedItem.marker, largeInfowindow);
     };
