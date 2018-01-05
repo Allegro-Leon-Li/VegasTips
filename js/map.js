@@ -49,6 +49,7 @@ function initMap() {
 // This function reports error if error when loading Google Map
 function errorMap() {
   console.log('error loading Google Map API');
+  alert("Cannot load Google Map, please check your network and firewall settings.")
 }
 // This function will loop through the markers array and display them all.
 function showListings() {
@@ -89,20 +90,38 @@ function populateInfoWindow(marker, infowindow) {
     // Set the content of the infowindow regarding the success or fail of calling Foursquare API
     infowindow.setContent('loading...');
     var contentString = '<h3>' + marker.title + '</h3>';
+    // Deprecated below
+    // $.ajax({
+    //   url: API_URL + VENUE_ID + '/tips?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&v=' + FOURSQUARE_VERSION,
+    //   success: function(data) {
+    //     console.log(data);
+    //     contentString = contentString +
+    //       '<p>' + data.response.tips.items[0].text + '</p>'
+    //     infowindow.setContent(contentString);
+    //   },
+    //   error: function(error) {
+    //     contentString = contentString +
+    //       '<p>Error loading Foursquare information</p>'
+    //     infowindow.setContent(contentString);
+    //   }
+    // });
     $.ajax({
       url: API_URL + VENUE_ID + '/tips?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&v=' + FOURSQUARE_VERSION,
-      success: function(data) {
-        console.log(data);
-        contentString = contentString +
-          '<p>' + data.response.tips.items[0].text + '</p>'
-        infowindow.setContent(contentString);
-      },
-      error: function(error) {
-        contentString = contentString +
-          '<p>Error loading Foursquare information</p>'
-        infowindow.setContent(contentString);
-      }
-    });
+      type: "GET",
+      dataType: "json"
+    })
+    .done(function(data) {
+      console.log(data);
+      contentString = contentString +
+        '<p>' + data.response.tips.items[0].text + '</p>'
+    })
+    .fail(function(error) {
+      contentString = contentString +
+        '<p>Error loading Foursquare information</p>'
+    })
+    .always(function(){
+      infowindow.setContent(contentString);
+    })
     // console.log(marker);
     infowindow.open(map, marker);
   }
